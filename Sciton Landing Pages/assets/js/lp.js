@@ -247,6 +247,7 @@
       first_name: firstName,
       last_name: lastName,
       name: fullName,
+      clinic_name: getFormValue(form, 'clinic_name'),
       email: getFormValue(form, 'email'),
       phone: getFormValue(form, 'phone'),
       postcode: getFormValue(form, 'postcode'),
@@ -254,6 +255,7 @@
       interest: getFormValue(form, 'interest') || 'Not provided',
       budget: getFormValue(form, 'budget') || 'Not provided',
       message: getFormValue(form, 'message'),
+      clinic_owner: getFormValue(form, 'clinic_owner') || 'Not provided',
       consent_to_contact: form.querySelector('[name="consent"]') && form.querySelector('[name="consent"]').checked ? 'Yes' : 'No',
       marketing_opt_in: form.querySelector('[name="marketing"]') && form.querySelector('[name="marketing"]').checked ? 'Yes' : 'No',
       campaign: campaign,
@@ -394,9 +396,57 @@
       });
     });
 
+    // Clinic-owner gating: hide form fields until a qualifying answer is given.
+    // "No, I am looking for treatment" → show rejection, hide form, no lead.
+    var clinicOwnerSelect = form.querySelector('[name="clinic_owner"]');
+    var formGrid = form.querySelector('.lp-form__grid');
+    var rejectionMsg = document.createElement('div');
+    rejectionMsg.className = 'lp-form__rejection';
+    rejectionMsg.innerHTML = '<p><strong>Thanks for your interest.</strong></p><p>This form is for clinic owners and practitioners. If you\u2019re looking for treatment, please search for a Sciton provider near you at <a href="https://sciton.com/find-my-provider" target="_blank" rel="noopener">sciton.com/find-my-provider</a>.</p>';
+    rejectionMsg.style.display = 'none';
+    formGrid.parentNode.insertBefore(rejectionMsg, formGrid.nextSibling);
+
+    // All fields after the clinic_owner field start hidden
+    var formFields = formGrid.querySelectorAll('.lp-form__field, .lp-form__full');
+    var ownerField = clinicOwnerSelect.closest('.lp-form__field');
+    var fieldsToGate = [];
+    var submitBtn = formGrid.querySelector('button[type="submit"]');
+    var submitWrapper = submitBtn ? submitBtn.parentNode : null;
+    var pastOwner = false;
+    Array.prototype.forEach.call(formGrid.children, function (child) {
+      if (child === ownerField) { pastOwner = true; return; }
+      if (pastOwner) fieldsToGate.push(child);
+    });
+
+    function setGatedFieldsVisible(visible) {
+      fieldsToGate.forEach(function (el) {
+        el.style.display = visible ? '' : 'none';
+      });
+    }
+
+    setGatedFieldsVisible(false);
+
+    clinicOwnerSelect.addEventListener('change', function () {
+      var val = clinicOwnerSelect.value;
+      if (val === 'No, I am looking for treatment') {
+        setGatedFieldsVisible(false);
+        rejectionMsg.style.display = '';
+        status.textContent = '';
+      } else if (val) {
+        setGatedFieldsVisible(true);
+        rejectionMsg.style.display = 'none';
+      } else {
+        setGatedFieldsVisible(false);
+        rejectionMsg.style.display = 'none';
+      }
+    });
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (form.classList.contains('is-submitting')) return;
+
+      // Block patient submissions entirely
+      if (clinicOwnerSelect.value === 'No, I am looking for treatment') return;
 
       var fields = form.querySelectorAll('[required]');
       var firstInvalid = null;

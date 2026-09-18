@@ -468,10 +468,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<!-- ============================================================ TESTIMONIALS
-     PLACEHOLDER CONTENT. Replace with cleared quotes from real UK clinic
-     owners before this page runs. See README.md.
-     ============================================================ -->
+<!-- ============================================================ TESTIMONIALS -->
 <section class="bg-brand-light-gray pt-24 pb-24 text-gray-300" id="reviews">
   <div class="container">
     <div class="justify-center mb-16 row">
@@ -483,23 +480,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
     <ul class="lp-quotes js-fade-group">
-      <li class="lp-quote" data-placeholder="true">
+      <li class="lp-quote">
         <svg class="icon icon-quotes" aria-hidden="true"><use xlink:href="#icon-quotes"></use></svg>
-        <p class="lp-quote__text">[Placeholder] We were turning away skin types our old diode could not treat safely. Six months on, that group is a real share of the hair removal book rather than a referral out.</p>
-        <p class="lp-quote__name">[Name to confirm]</p>
-        <p class="lp-quote__role">[Role], [Clinic], [City]</p>
+        <p class="lp-quote__text">The Sciton laser is the best laser I ever owned&hellip; paid for itself many times over.</p>
+        <p class="lp-quote__name">Allan E. Wulc, MD, FACS</p>
+        <p class="lp-quote__role">Plymouth Meeting, PA</p>
       </li>
-      <li class="lp-quote" data-placeholder="true">
+      <li class="lp-quote">
         <svg class="icon icon-quotes" aria-hidden="true"><use xlink:href="#icon-quotes"></use></svg>
-        <p class="lp-quote__text">[Placeholder] A full-leg appointment went from the slot we dreaded to one we can run back to back. Same room, same staff, more patients through the day.</p>
-        <p class="lp-quote__name">[Name to confirm]</p>
-        <p class="lp-quote__role">[Role], [Clinic], [City]</p>
+        <p class="lp-quote__text">The Contour TRL is my magic wand. This laser has completely changed patients&rsquo; lives.</p>
+        <p class="lp-quote__name">Denise Baker, MD</p>
+        <p class="lp-quote__role">Bradenton, FL</p>
       </li>
-      <li class="lp-quote" data-placeholder="true">
+      <li class="lp-quote">
         <svg class="icon icon-quotes" aria-hidden="true"><use xlink:href="#icon-quotes"></use></svg>
-        <p class="lp-quote__text">[Placeholder] Dropping the gel step was a smaller headline than the speed and a bigger difference to the margin. Nothing to reorder, and the room resets in a fraction of the time.</p>
-        <p class="lp-quote__name">[Name to confirm]</p>
-        <p class="lp-quote__role">[Role], [Clinic], [City]</p>
+        <p class="lp-quote__text">Sciton BBL is my most popular choice for skin rejuvenation &mdash; fast, cost effective, efficacious.</p>
+        <p class="lp-quote__name">Patrick Bitter, Jr., MD</p>
+        <p class="lp-quote__role">Los Gatos, CA</p>
       </li>
     </ul>
   </div>
@@ -676,6 +673,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="lp-form js-fade">
           <form id="demo-form" class="form-skin" action="#" method="post" novalidate data-campaign="C2-lhr-equipment">
             <div class="lp-form__grid">
+              <div class="lp-form__field lp-form__full">
+                <label class="lp-form__label" for="f-clinic-owner">Are you a clinic owner? <span class="lp-form__req" aria-hidden="true">*</span></label>
+                <select id="f-clinic-owner" name="clinic_owner" required aria-describedby="e-clinic-owner">
+                  <option value="">Please select</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No, but I work for a clinic">No, but I work for a clinic</option>
+                  <option value="No, I am looking for treatment">No, I am looking for treatment</option>
+                </select>
+                <p class="lp-form__error" id="e-clinic-owner">Please select an option.</p>
+              </div>
+              <div class="lp-form__field lp-form__full">
+                <label class="lp-form__label" for="f-clinic-name">Clinic name <span class="lp-form__req" aria-hidden="true">*</span></label>
+                <input type="text" id="f-clinic-name" name="clinic_name" autocomplete="organization" required aria-describedby="e-clinic-name">
+                <p class="lp-form__error" id="e-clinic-name">Please enter your clinic name.</p>
+              </div>
               <div class="lp-form__field">
                 <label class="lp-form__label" for="f-first">First name <span class="lp-form__req" aria-hidden="true">*</span></label>
                 <input type="text" id="f-first" name="first_name" autocomplete="given-name" required aria-describedby="e-first">

@@ -613,6 +613,22 @@
 .lp-form__note a { text-decoration: underline; transition: color .15s ease-in-out; }
 .lp-form__note a:hover { color: var(--lp-primary); }
 
+/* Rejection message shown when a patient selects "looking for treatment" */
+.lp-form__rejection {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border-radius: .5rem;
+  background: var(--lp-light-gray, #f5f5f5);
+  border: 1px solid var(--lp-gray-200, #e0e0e0);
+  font-size: .9375rem;
+  line-height: 1.6;
+  color: var(--lp-dark, #252525);
+}
+.lp-form__rejection p { margin: 0 0 .5rem; }
+.lp-form__rejection p:last-child { margin-bottom: 0; }
+.lp-form__rejection a { text-decoration: underline; font-weight: 600; }
+.lp-form__rejection a:hover { color: var(--lp-primary); }
+
 /* --------------------------------------------------------------------------
    15. Mobile
    Below the theme's lg breakpoint the anchor-nav has no links to show, so it
