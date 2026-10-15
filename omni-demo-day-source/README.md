@@ -40,12 +40,14 @@ Preview the whole site locally with `node serve.mjs 8233`, then open `http://loc
 
 ## Before going live
 
-1. **Lead endpoint.** In `main.js`, set `CONFIG.endpoint` to the CRM / Zapier / Make webhook. Each lead is POSTed as
-   JSON: `event`, `first_name`, `last_name`, `clinic_name`, `email`, `phone`, `preferred_time` (the hour they would
-   like between 10am and 6pm; Sciton replies to confirm the slot), `form_location` (hero or footer), `page_url`,
-   `submitted_at`, plus `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term` and `fbclid` captured
-   from the ad click. Until it is set, the form validates and goes to the thank-you page but sends nothing (the
-   payload is logged to the console).
+1. **Lead delivery.** Each booking request is emailed to victoria.jeacock@sciton.com through FormSubmit
+   (`CONFIG.endpoint` in `main.js`, AJAX endpoint `https://formsubmit.co/ajax/<email>`). `buildEmail` lays it out as a
+   table: Name, Clinic, Email, Mobile number, Preferred time (the hour they would like between 10am and 6pm; Sciton
+   replies to confirm the slot), Event, Form (top or bottom of the page), Source (UTMs), Submitted, Page and the
+   Facebook click ID. Reply-To is the requester's email. **The first submission triggers a one-off "Activate Form" email
+   from FormSubmit to the recipient; nothing is delivered until that link is clicked.** While the form is not active,
+   FormSubmit returns `success: "false"` and the visitor sees an error instead of the thank-you page. To change the
+   recipient, change the address in `CONFIG.endpoint` (it needs activating again); set it to `''` to stop sending.
 2. **Meta Pixel.** Paste the base code where marked in the `<head>` of both pages, and fire `fbq('track', 'Lead')`
    on the thank-you page. An `omni:lead` event is also dispatched on `document` at submission. The Google Ads GTM
    container used by the other landing pages is deliberately not on these pages.
