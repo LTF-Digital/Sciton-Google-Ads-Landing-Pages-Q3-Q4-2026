@@ -25,46 +25,6 @@
     timeLine.replaceChildren('Preferred time: ', strong, note);
   }
 
-  // Add to calendar: build the .ics file in the browser, so no external link is needed.
-  const calendarButton = document.querySelector('[data-add-calendar]');
-  if (calendarButton) {
-    calendarButton.addEventListener('click', () => {
-      const ics = [
-        'BEGIN:VCALENDAR',
-        'VERSION:2.0',
-        'PRODID:-//Sciton//OMNI Demo Day//EN',
-        'CALSCALE:GREGORIAN',
-        'METHOD:PUBLISH',
-        'BEGIN:VEVENT',
-        'UID:omni-demo-day-20261102@sciton.com',
-        `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')}`,
-        'DTSTART:20261102T100000Z',
-        'DTEND:20261102T180000Z',
-        'SUMMARY:OMNI™ Demo Day by Sciton',
-        'LOCATION:SkinCeuticals\\, 187 Wood Lane\\, London W12 7SA\\, United Kingdom',
-        `DESCRIPTION:See OMNI™ laser hair removal in action. ${preferredTime ? `Your preferred time: ${preferredTime.replace(/[\\,;]/g, (c) => `\\${c}`)}. ` : ''}The Sciton team will confirm your demo slot.`,
-        'BEGIN:VALARM',
-        'TRIGGER:-P1D',
-        'ACTION:DISPLAY',
-        'DESCRIPTION:OMNI™ Demo Day is tomorrow',
-        'END:VALARM',
-        'END:VEVENT',
-        'END:VCALENDAR',
-      ]
-        // RFC 5545: fold lines longer than 75 characters onto continuation lines.
-        .map((line) => line.match(/.{1,72}/g).join('\r\n '))
-        .join('\r\n');
-      const url = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'OMNI-Demo-Day-2-November.ics';
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-    });
-  }
-
   // Product film
   document.querySelectorAll('.video-tile').forEach((tile) => {
     const video = tile.querySelector('video');
