@@ -1,0 +1,80 @@
+<form class="lead-form relative rounded-[24px] bg-white p-5 text-ink shadow-float min-[400px]:p-6 sm:p-8" id="form-{{id}}" data-lead-form data-form-location="{{location}}" action="/omni-demo-day/thank-you" method="post" novalidate aria-labelledby="form-{{id}}-title">
+  <div class="mb-5">
+    <p class="mb-4 inline-flex flex-wrap items-center gap-x-2.5 gap-y-1 rounded-full border border-plum/15 bg-pink-mist px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-plum">
+      <span class="live-dot !bg-hibiscus after:!bg-hibiscus" aria-hidden="true"></span>
+      <span>Limited slots available</span>
+      <span class="hidden text-plum/55 sm:inline" data-days-left-wrap>&middot; <span data-days-left>Monday 2 November</span></span>
+    </p>
+    <{{heading}} id="form-{{id}}-title" class="font-sans text-[30px] font-light leading-[1.05] tracking-[-0.02em] text-ink sm:text-[34px]">Book Your <span class="accent text-plum">Demo Slot</span></{{heading}}>
+    <p class="mt-2 text-[15px] leading-snug text-muted">Tell us when suits you on Monday 2 November and the Sciton team will confirm your demo slot. It takes under a minute.</p>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2">
+    <div>
+      <label class="field-label" for="form-{{id}}-first">First name</label>
+      <input class="field-input" id="form-{{id}}-first" name="first_name" type="text" autocomplete="given-name" required>
+      <p class="field-error hidden" data-error-for="first_name">Please enter your first name.</p>
+    </div>
+    <div>
+      <label class="field-label" for="form-{{id}}-last">Last name</label>
+      <input class="field-input" id="form-{{id}}-last" name="last_name" type="text" autocomplete="family-name" required>
+      <p class="field-error hidden" data-error-for="last_name">Please enter your last name.</p>
+    </div>
+    <div class="min-[420px]:col-span-2">
+      <label class="field-label" for="form-{{id}}-clinic">Clinic name</label>
+      <input class="field-input" id="form-{{id}}-clinic" name="clinic_name" type="text" autocomplete="organization" required>
+      <p class="field-error hidden" data-error-for="clinic_name">Please enter your clinic name.</p>
+    </div>
+    <div class="min-[420px]:col-span-2 lg:col-span-1">
+      <label class="field-label" for="form-{{id}}-email">Email address</label>
+      <input class="field-input" id="form-{{id}}-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+      <p class="field-error hidden" data-error-for="email">Please enter a valid email address.</p>
+    </div>
+    <div class="min-[420px]:col-span-2 lg:col-span-1">
+      <label class="field-label" for="form-{{id}}-phone">Mobile number</label>
+      <input class="field-input" id="form-{{id}}-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required>
+      <p class="field-error hidden" data-error-for="phone">Please enter a valid UK phone number.</p>
+    </div>
+    <div class="min-[420px]:col-span-2">
+      <label class="field-label" for="form-{{id}}-time">Preferred time between 10am and 6pm</label>
+      <select class="field-input field-select" id="form-{{id}}-time" name="preferred_time" required>
+        <option value="" disabled selected>Choose a time</option>
+        <option value="10am to 11am">10am &ndash; 11am</option>
+        <option value="11am to 12pm">11am &ndash; 12pm</option>
+        <option value="12pm to 1pm">12pm &ndash; 1pm</option>
+        <option value="1pm to 2pm">1pm &ndash; 2pm</option>
+        <option value="2pm to 3pm">2pm &ndash; 3pm</option>
+        <option value="3pm to 4pm">3pm &ndash; 4pm</option>
+        <option value="4pm to 5pm">4pm &ndash; 5pm</option>
+        <option value="5pm to 6pm">5pm &ndash; 6pm</option>
+        <option value="Flexible, any time">I&rsquo;m flexible, any time</option>
+      </select>
+      <p class="field-error hidden" data-error-for="preferred_time">Please choose a preferred time.</p>
+    </div>
+  </div>
+
+  <div class="mt-6">
+    <button type="submit" class="btn btn-plum w-full whitespace-nowrap" data-submit>
+      <span data-submit-label>Book Your Demo Slot</span>
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+
+  <!-- Hidden context for the CRM / Meta attribution -->
+  <input type="hidden" name="form_location" value="{{location}}">
+  <input type="hidden" name="utm_source">
+  <input type="hidden" name="utm_medium">
+  <input type="hidden" name="utm_campaign">
+  <input type="hidden" name="utm_content">
+  <input type="hidden" name="utm_term">
+  <input type="hidden" name="fbclid">
+  <input type="hidden" name="page_url">
+  <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+    <label for="form-{{id}}-website">Website</label>
+    <input id="form-{{id}}-website" name="website_url" type="text" tabindex="-1" autocomplete="off">
+  </div>
+
+  <p class="field-error mt-4 hidden" data-submit-error role="alert">Something went wrong sending your details. Please try again.</p>
+
+  <p class="mt-4 text-[12px] leading-snug text-muted">We will only use your details to arrange your OMNI&trade; demo. Your information is handled in confidence by Sciton.</p>
+</form>

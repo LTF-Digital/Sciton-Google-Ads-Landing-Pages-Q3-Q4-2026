@@ -1,0 +1,12 @@
+{
+  "name": "sciton-omni-demo-day-lp",
+  "private": true,
+  "description": "Sciton OMNI Demo Day Meta campaign landing page and thank-you page",
+  "scripts": {
+    "build": "node build.mjs",
+    "watch": "tailwindcss -i ./src/input.css -o ./assets/css/styles.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}
