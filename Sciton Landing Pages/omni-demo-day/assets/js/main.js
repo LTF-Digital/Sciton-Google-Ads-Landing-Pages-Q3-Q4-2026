@@ -119,7 +119,7 @@
       const payload = buildPayload(form);
       button.disabled = true;
       button.classList.add('opacity-70');
-      label.textContent = 'Booking your slot…';
+      label.textContent = 'Sending your request…';
 
       try {
         if (CONFIG.endpoint) {
@@ -142,7 +142,7 @@
         submitError.classList.remove('hidden');
         button.disabled = false;
         button.classList.remove('opacity-70');
-        label.textContent = 'Book Your Demo Slot';
+        label.textContent = 'Request booking';
       }
     });
   });
