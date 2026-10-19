@@ -3,13 +3,12 @@
   'use strict';
 
   /*
-   * Where leads go. Each booking request is emailed to Sciton through FormSubmit (formsubmit.co),
-   * laid out by buildEmail. The first submission from this page triggers a one-off "Activate Form"
-   * email to the recipient; nothing is delivered until that link is clicked.
+   * Where leads go. Each booking request is POSTed to a Zapier Catch Hook (form-encoded, so the browser
+   * sends it without a CORS preflight); the Zap handles delivery to Sciton.
    * Set `endpoint` to '' to stop sending (the form then just moves on to the thank-you page).
    */
   const CONFIG = {
-    endpoint: 'https://formsubmit.co/ajax/victoria.jeacock@sciton.com',
+    endpoint: 'https://hooks.zapier.com/hooks/catch/18066862/41syo8n/',
     thankYouUrl: '/omni-demo-day/thank-you',
     event: 'OMNI Demo Day, SkinCeuticals, 187 Wood Lane, London W12 7SA, Monday 2 November 2026, 10am-6pm',
     // Monday 2 November 2026, 10am to 6pm London time (GMT).
@@ -89,32 +88,6 @@
     return payload;
   }
 
-  // The email Sciton receives: a readable table, with Reply-To set to the person who booked.
-  function buildEmail(payload) {
-    const name = `${payload.first_name} ${payload.last_name}`.trim();
-    const source = payload.utm_source
-      ? [payload.utm_source, payload.utm_medium, payload.utm_campaign, payload.utm_content].filter(Boolean).join(' / ')
-      : 'Direct (no ad tracking)';
-    const email = {
-      _subject: `OMNI Demo Day booking request: ${name}, ${payload.clinic_name}`,
-      _template: 'table',
-      _captcha: 'false',
-      _replyto: payload.email,
-      Name: name,
-      Clinic: payload.clinic_name,
-      Email: payload.email,
-      'Mobile number': payload.phone,
-      'Preferred time': payload.preferred_time.replace(' to ', ' \u2013 '),
-      Event: 'OMNI Demo Day, Monday 2 November 2026, SkinCeuticals, 187 Wood Lane, London W12 7SA',
-      Form: payload.form_location === 'footer' ? 'Bottom of the page' : 'Top of the page',
-      Source: source,
-      Submitted: new Date(payload.submitted_at).toLocaleString('en-GB', { timeZone: 'Europe/London', dateStyle: 'medium', timeStyle: 'short' }),
-      Page: payload.page_url,
-    };
-    if (payload.fbclid) email['Facebook click ID'] = payload.fbclid;
-    return email;
-  }
-
   forms.forEach((form) => {
     // Hidden attribution fields, for anyone who later posts the form natively.
     TRACK_KEYS.forEach((key) => {
@@ -152,18 +125,25 @@
         if (CONFIG.endpoint) {
           const response = await fetch(CONFIG.endpoint, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify(buildEmail(payload)),
+            body: new URLSearchParams(payload),
           });
           const result = await response.json().catch(() => ({}));
-          // FormSubmit answers 200 with success "false" while the form awaits activation.
-          if (!response.ok || String(result.success) !== 'true') {
+          if (!response.ok || result.status !== 'success') {
             throw new Error(`Lead not sent: ${result.message || response.status}`);
           }
         } else {
           console.info('[OMNI Demo Day] No lead endpoint configured. This lead was not sent:', payload);
         }
         document.dispatchEvent(new CustomEvent('omni:lead', { detail: payload }));
+        // Same dataLayer event as the other Sciton landing pages (lp.js), for GTM.
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'lead_form_success',
+          form_id: form.id,
+          campaign: 'omni-demo-day',
+          form_location: payload.form_location,
+          preferred_time: payload.preferred_time,
+        });
         try {
           sessionStorage.setItem('omni_lead', JSON.stringify({ first_name: payload.first_name, preferred_time: payload.preferred_time }));
         } catch (e) { /* private mode */ }

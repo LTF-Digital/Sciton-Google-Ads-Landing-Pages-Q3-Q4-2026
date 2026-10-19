@@ -40,17 +40,19 @@ Preview the whole site locally with `node serve.mjs 8233`, then open `http://loc
 
 ## Before going live
 
-1. **Lead delivery.** Each booking request is emailed to victoria.jeacock@sciton.com through FormSubmit
-   (`CONFIG.endpoint` in `main.js`, AJAX endpoint `https://formsubmit.co/ajax/<email>`). `buildEmail` lays it out as a
-   table: Name, Clinic, Email, Mobile number, Preferred time (the hour they would like between 10am and 6pm; Sciton
-   replies to confirm the slot), Event, Form (top or bottom of the page), Source (UTMs), Submitted, Page and the
-   Facebook click ID. Reply-To is the requester's email. **The first submission triggers a one-off "Activate Form" email
-   from FormSubmit to the recipient; nothing is delivered until that link is clicked.** While the form is not active,
-   FormSubmit returns `success: "false"` and the visitor sees an error instead of the thank-you page. To change the
-   recipient, change the address in `CONFIG.endpoint` (it needs activating again); set it to `''` to stop sending.
-2. **Meta Pixel.** Paste the base code where marked in the `<head>` of both pages, and fire `fbq('track', 'Lead')`
-   on the thank-you page. An `omni:lead` event is also dispatched on `document` at submission. The Google Ads GTM
-   container used by the other landing pages is deliberately not on these pages.
+1. **Lead delivery.** Each booking request is POSTed (form-encoded) to the Zapier Catch Hook in `CONFIG.endpoint` in
+   `main.js` (`https://hooks.zapier.com/hooks/catch/18066862/41syo8n/`). Fields: `event`, `first_name`, `last_name`,
+   `clinic_name`, `email`, `phone`, `preferred_time` (the hour they would like between 10am and 6pm; Sciton replies to
+   confirm the slot), `form_location` (hero or footer), `page_url`, `submitted_at`, plus `utm_source`, `utm_medium`,
+   `utm_campaign`, `utm_content`, `utm_term` and `fbclid` captured from the ad click. The Zap handles delivery to Sciton.
+   The visitor only reaches the thank-you page once Zapier answers `status: "success"`; otherwise they see an error.
+   Set `endpoint` to `''` to stop sending.
+2. **Tracking (GTM-N37FXBXC).** Both pages load the same Google Tag Manager container as the other Sciton landing
+   pages; there is no hard-coded pixel. GTM fires the Meta Pixel (1589274142845919) PageView on every page, and the
+   Meta `Lead` event plus the Google Ads conversion (AW-18410112361 / Pd4XCN_b1-ccEOmK0MpE) on any URL containing
+   `thank-you`, so `/omni-demo-day/thank-you` counts as a lead. On a successful submission `main.js` also pushes
+   `lead_form_success` (form_id, campaign `omni-demo-day`, form_location, preferred_time) to the dataLayer and
+   dispatches an `omni:lead` event on `document`.
 3. **Noindex.** The project's `vercel.json` already sends `X-Robots-Tag: noindex, nofollow` on every path, and both
    pages also carry a robots meta tag (`noindex, nofollow, noarchive, nosnippet, noimageindex`).
 
