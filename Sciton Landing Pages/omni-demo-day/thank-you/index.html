@@ -18,10 +18,26 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap">
   <link rel="stylesheet" href="/omni-demo-day/assets/css/styles.css?v=423201b645">
 
-  <!--
-    Meta Pixel: paste the base code here, then fire the conversion on this page:
-    fbq('track', 'Lead');
-  -->
+  <!-- Meta Pixel Code, with the Lead conversion for a booking request. -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1589274142845919');
+  fbq('track', 'PageView');
+  fbq('track', 'Lead');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1589274142845919&ev=PageView&noscript=1"
+  /><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1589274142845919&ev=Lead&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
 </head>
 <body>
   <main class="section-dark min-h-screen">
