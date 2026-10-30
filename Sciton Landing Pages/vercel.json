@@ -2,9 +2,14 @@
   "cleanUrls": true,
   "redirects": [
     {
+      "source": "/",
+      "destination": "/sciton-brand",
+      "permanent": false
+    },
+    {
       "source": "/index.html",
-      "destination": "/",
-      "permanent": true
+      "destination": "/sciton-brand",
+      "permanent": false
     },
     {
       "source": "/c1-sciton-brand/index.html",
