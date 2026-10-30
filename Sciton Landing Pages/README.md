@@ -75,12 +75,13 @@ It introduces no new colours, radii or shadows.
 
 ## Deploying
 
-There is no root page. `vercel.json` redirects `/` and `/index.html` to
-`/sciton-brand`, so traffic that reaches the bare domain — a mistyped link, or
-an ad whose final URL was set to the domain rather than a page — lands on C1
-with the form and GTM intact, and Vercel carries the query string (`gclid`,
-UTMs) through the redirect. The redirect is temporary (307) on purpose:
-browsers cache a permanent one, which would make the root hard to reuse later.
+There is no root page. `vercel.json` redirects `/` to `/sciton-brand`, so
+traffic that reaches the bare domain — a mistyped link, or an ad whose final
+URL was set to the domain rather than a page — lands on C1 with the form and
+GTM intact. Vercel carries the query string (`gclid`, UTMs) through the
+redirect. `/index.html` is normalised to `/` by `cleanUrls` first, then follows
+the same redirect. The `/` redirect is temporary (307) on purpose: browsers
+cache a permanent one, which would make the root hard to reuse later.
 
 `.vercelignore` keeps three things out of the deployment, and they matter:
 
@@ -468,9 +469,9 @@ That reads well on the `#252525` bands (6.5:1) but only reaches 2.35:1 on
 white, below WCAG AA. On light sections those greys are stepped up to
 `#717171` (4.9:1), which is what sciton.uk itself uses on light grounds.
 
-The same problem runs the other way, and it was missed until the (since-removed)
-listing page was built. The theme's `.wysiwyg` paragraph colour is `#717171`, correct on
-white but only 2.9:1 inside a `#252525` band. It went unnoticed because the
+The same problem runs the other way, and it was missed until the
+(since-removed) listing page was built. The theme's `.wysiwyg` paragraph
+colour is `#717171`, correct on white but only 2.9:1 inside a `#252525` band. It went unnoticed because the
 statistics band's stat list sets `text-gray-200` explicitly — only the prose
 column beside it was affected. Section 23 of `lp.css` steps bare paragraphs
 and list items up to `#a9a9a9` on the dark bands, which puts them at 6.5:1.

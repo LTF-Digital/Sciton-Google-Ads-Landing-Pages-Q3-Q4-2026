@@ -8,8 +8,8 @@
     },
     {
       "source": "/index.html",
-      "destination": "/sciton-brand",
-      "permanent": false
+      "destination": "/",
+      "permanent": true
     },
     {
       "source": "/c1-sciton-brand/index.html",
